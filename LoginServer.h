@@ -1,10 +1,10 @@
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef LOGINSERVER_H
+#define LOGINSERVER_H
 
 #include"Socket.h"
 
 //服务端
-class Server{
+class LoginServer{
 protected:
 	Socket socket;//监听连接用的Socket
 public:

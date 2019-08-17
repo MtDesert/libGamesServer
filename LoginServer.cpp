@@ -1,4 +1,4 @@
-#include"Server.h"
+#include"LoginServer.h"
 #include"ErrorNumber.h"
 
 //server
@@ -9,7 +9,7 @@ void whenSocketError(Socket *socket){
 	printf("%d %s\n",socket->errorNumber,ErrorNumber::getErrorString(socket->errorNumber));
 }
 
-int Server::main(int argc,char* argv[]){
+int LoginServer::main(int argc,char* argv[]){
 	//开始监听设置
 	socket.whenSocketAccepted=whenSocketAccepted;
 	socket.whenSocketError=whenSocketError;
