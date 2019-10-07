@@ -20,17 +20,17 @@ if(GAME_NAME)
 		target_link_libraries(${PROJECT_NAME} GamesClient ${GAME_NAME} GamesEngines ${LIBS_LIST})
 	endif()
 else()
-	message(编译客户端库)
-	project(LoginServer)
+	message(编译服务端库)
+	project(GameServer)
 	#添加所有paths下的源码和头文件
 	srcIncludeAll(./ .)
 	#包含依赖库的目录
 	set(INCLUDE_DIR_ONLY ON)
 	include(../libGamesEngines/CMakeLists.txt)
 	#库输出
-	#add_library(${PROJECT_NAME} SHARED ${SRC_LIST})
-	#target_link_libraries(${PROJECT_NAME} GamesEngines ${LIBS_LIST})
+	add_library(${PROJECT_NAME} SHARED ${SRC_LIST})
+	target_link_libraries(${PROJECT_NAME} GamesEngines ${LIBS_LIST})
 	#程序输出
-	add_executable(${PROJECT_NAME} ./executable/LoginServer.cpp)
-	target_link_libraries(${PROJECT_NAME} GamesEngines)
+	add_executable(LoginServer ./executable/LoginServer.cpp)
+	target_link_libraries(LoginServer GameServer GamesEngines)
 endif()
