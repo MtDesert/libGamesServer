@@ -9,21 +9,31 @@
 List<Player> playersList;//玩家列表
 
 void whenSocketError(Socket *socket){
-	printf("error: %d %s\n",socket->errorNumber,ErrorNumber::getErrorString(socket->errorNumber));
+	printf("server error: %d %s\n",socket->errorNumber,ErrorNumber::getErrorString(socket->errorNumber));
 }
 void whenSocketAccepted(Socket *socket){
-	playersList.push_back(Player(socket));
+	printf("server收到连接\n");
+	//添加玩家
+	playersList.push_back(Player());
+	auto player=playersList.data(playersList.size()-1);
+	//关联socket
+	auto skt=socket->newAcceptSocket;
+	skt->userData=player;
+	player->setSocket(*skt);
+}
+void whenSocketDisconnected(Socket *socket){
+	printf("socket断开连接\n");
 }
 
 int main(int argc,char* argv[]){
-	Socket socket;
+	ErrorNumber::init();
+	Socket socket;//这个socket是用来监听玩家的连接的
 	//设置回调函数
-	socket.whenSocketAccepted=whenSocketAccepted;
-	socket.whenSocketSent=Player::whenSocketSent;
-	socket.whenSocketReceived=Player::whenSocketReceived;
 	socket.whenSocketError=whenSocketError;
+	socket.whenSocketAccepted=whenSocketAccepted;
+	socket.whenSocketDisconnected=whenSocketDisconnected;
 	//监听
 	socket.listenPort(2048);
-	socket.waitListenFinish();
+	socket.acceptLoop();
 	return 0;
 }
