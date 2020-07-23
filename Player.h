@@ -11,6 +11,10 @@ public:
 	string gameName;//游戏名,用来指明用户要玩的游戏
 	string platformName;//平台名,确定游戏的运行环境
 	string username;//用户名,这是用来调用玩家数据的凭据
+	//推断函数
+	static void soFilename(char *buffer,const char *name);//动态库文件名
+	void soFullFilename(char *buffer,const char *filename)const;//动态库文件的全路径
+	void writeSOfileInfo(const char *name);//添加库名到报文中
 
 	//收到请求后处理请求
 	static void whenReceived(Transceiver *transceiver);
